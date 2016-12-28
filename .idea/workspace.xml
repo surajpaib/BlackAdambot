@@ -108,7 +108,7 @@
         <entry file="file://$PROJECT_DIR$/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="75">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+              <caret line="3" column="55" lean-forward="false" selection-start-line="3" selection-start-column="55" selection-end-line="3" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -947,7 +947,7 @@
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+          <caret line="3" column="55" lean-forward="false" selection-start-line="3" selection-start-column="55" selection-end-line="3" selection-end-column="55" />
           <folding />
         </state>
       </provider>
