@@ -1,3 +1,7 @@
-requests
-Django
-acrcloud
+requests==2.11.1
+Django==1.10.4
+wget==3.2
+-e https://github.com/acrcloud/acrcloud_sdk_python/tree/master/linux/x86-64/python2.7
+gunicorn==19.6.0
+whitenoise==3.2
+dj-database-url==0.4.1
