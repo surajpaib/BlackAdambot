@@ -66,17 +66,22 @@ def webhook(request):
                             os.remove("music.mp3")
                             return_object=json.loads(return_object.decode('utf-8'))
 
-                            for t in return_object["metadata"]["music"]:
-                                song=t["title"]
-                                song="The title of the song is,  \""+song+" \""
-                                post_message(recipient_id,song)
-                                post_message(recipient_id,"The artists are,")
-                                for a in t["artists"]:
-                                    artist=a["name"]
-                                    post_message(recipient_id,artist)
-                                post_message(recipient_id,"All done here, record another clip?")
 
-                                break
+                            try:
+                                for t in return_object["metadata"]["music"]:
+                                    song=t["title"]
+                                    song="The title of the song is,  \""+song+" \""
+                                    post_message(recipient_id,song)
+                                    post_message(recipient_id,"The artists are,")
+                                    for a in t["artists"]:
+                                        artist=a["name"]
+                                        post_message(recipient_id,artist)
+                                    post_message(recipient_id,"All done here, record another clip?")
+
+                                    break
+                            except:
+                                post_message(recipient_id,"Sorry, my programming is limited!")
+                                return HttpResponse(status=200)
 
 
                             return HttpResponse(return_object,status=200,content_type="application/json")
