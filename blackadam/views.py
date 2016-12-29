@@ -85,7 +85,6 @@ def webhook(request):
 
 
         except:
-            post_message(recipient_id,"Sorry, My programming is limited!")
             return HttpResponse(status=200)
 
 
