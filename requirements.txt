@@ -1,7 +1,6 @@
 requests==2.11.1
 Django==1.10.4
 wget==3.2
-pyscopg2
 git+https://github.com/surajpaib/acr-cloud.git#egg=acr_cloud
 gunicorn==19.6.0
 whitenoise==3.2
