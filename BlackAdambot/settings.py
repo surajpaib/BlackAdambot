@@ -24,7 +24,7 @@ SECRET_KEY = '0(1o2m=kv8l0q!euj!ipndgrh&*th3(1q6!d&$hpz(bco7uh3p'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'64d3c307.ngrok.io']
+ALLOWED_HOSTS = [u'blackadambot.herokuapp.com']
 
 
 # Application definition
