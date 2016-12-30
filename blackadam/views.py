@@ -109,11 +109,12 @@ def create_button(recipient_id,message):
       "type":"template",
       "payload":{
         "template_type":"button",
+        "text":message,
         "buttons":[
           {
             "type":"web_url",
             "url":"https://www.google.co.in/#&q="+message,
-            "title":message,
+            "title":"Click for more info",
             "webview_height_ratio":"compact"
           }]}}}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
