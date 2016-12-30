@@ -112,7 +112,7 @@ def create_button(recipient_id,message):
         "buttons":[
           {
             "type":"web_url",
-            "url":"https://https://www.google.co.in/#&q="+message,
+            "url":"https://www.google.co.in/#&q="+message,
             "title":message,
             "webview_height_ratio":"compact"
           }]}}}})
