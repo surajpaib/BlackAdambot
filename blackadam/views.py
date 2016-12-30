@@ -121,8 +121,8 @@ def create_button(recipient_id,message):
           },
             {
                 "type": "web_url",
-                "url": "http://musicroamer.com/#/search?artist="+message,
-                "title": "Similar artists and tracks",
+                "url": "https://www.music-map.com/"+message+".html",
+                "title": "Find Similar",
                 "webview_height_ratio": "tall"
             }
         ]}}}})
