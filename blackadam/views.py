@@ -75,7 +75,7 @@ def webhook(request):
                                     post_message(recipient_id,"The artists are,")
                                     for a in t["artists"]:
                                         artist=a["name"]
-                                        post_message(recipient_id,artist)
+                                        create_button(recipient_id,artist)
                                     post_message(recipient_id,"All done here, record another clip?")
 
                                     break
@@ -99,5 +99,22 @@ def webhook(request):
 def post_message(recipient_id,message):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token='+PAGE_TOKEN
     response_msg = json.dumps({"recipient": {"id": recipient_id}, "message": {"text": message}})
+    status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
+    print(status.json())
+
+
+def create_button(recipient_id,message):
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=' + PAGE_TOKEN
+    response_msg = json.dumps({"recipient": {"id": recipient_id}, "message": { "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "buttons":[
+          {
+            "type":"web_url",
+            "url":"https://https://www.google.co.in/#&q="+message,
+            "title":message,
+            "webview_height_ratio":"compact"
+          }]}}}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
     print(status.json())
