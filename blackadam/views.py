@@ -70,8 +70,10 @@ def webhook(request):
                             try:
                                 for t in return_object["metadata"]["music"]:
                                     song=t["title"]
-                                    song="The title of the song is,  \""+song+" \""
+                                    songt="Hey, I've identified your song, the song is called,"
+                                    post_message(recipient_id,songt)
                                     post_message(recipient_id,song)
+
                                     post_message(recipient_id,"The artists are,")
                                     for a in t["artists"]:
                                         artist=a["name"]
@@ -116,6 +118,13 @@ def create_button(recipient_id,message):
             "url":"https://www.google.co.in/#&q="+message,
             "title":"Click for more info",
             "webview_height_ratio":"compact"
-          }]}}}})
+          },
+            {
+                "type": "web_url",
+                "url": "http://musicroamer.com/#/search?artist="+message,
+                "title": "Similar artists and tracks",
+                "webview_height_ratio": "tall"
+            }
+        ]}}}})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
     print(status.json())
