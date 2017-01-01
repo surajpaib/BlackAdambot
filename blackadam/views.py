@@ -85,9 +85,10 @@ def webhook(request):
                                     post_message(recipient_id,songt)
                                     post_message(recipient_id,song)
 
-                                    genre=""
+
                                     for g in t["genres"]:
-                                        genre=genre+"+"+g["name"]
+                                        genre=g["name"]
+                                        genre=genre+"+"
 
                                     post_message(recipient_id,"And the artists are,")
                                     for a in t["artists"]:
