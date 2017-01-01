@@ -42,8 +42,10 @@ def webhook(request):
                     '''
                     try:
                         if message["postback"]["payload"]=="START":
-                            welcome_message="Welcome! I am Black Adam, your personal Music Butler! To record your music click on the mic button and I'll tell you whatever I know!"
+                            welcome_message="Hello! I'm Black Adam, your personal Music Butler! Record music you want to identify by clicking on the mic button!"
+
                             post_message(recipient_id,welcome_message)
+                            post_message(recipient_id,"P.S: I may not be able to figure out if you hum, I've just learnt to identify original music.")
                             return HttpResponse(status=200)
                     except:
                         print "Continue"
@@ -70,16 +72,16 @@ def webhook(request):
                             try:
                                 for t in return_object["metadata"]["music"]:
                                     song=t["title"]
-                                    songt="Hey, I've identified your song, the song is called,"
+                                    songt="Hey, I've identified your song, it's"
                                     post_message(recipient_id,songt)
                                     post_message(recipient_id,song)
 
-                                    post_message(recipient_id,"The artists are,")
+                                    post_message(recipient_id,"And the artists are,")
                                     for a in t["artists"]:
                                         artist=a["name"]
                                         create_button(recipient_id,artist)
                                     post_message(recipient_id,"All done here, record another clip?")
-
+                                    quick_reply(recipient_id,song,artist)
                                     break
                             except:
                                 post_message(recipient_id,"Sorry, my programming is limited!")
@@ -126,5 +128,36 @@ def create_button(recipient_id,message):
                 "webview_height_ratio": "tall"
             }
         ]}}}})
+    status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
+    print(status.json())
+
+
+def quick_reply(recipient_id,song,artist):
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token='+PAGE_TOKEN
+    response_msg = json.dumps({
+  "recipient":{
+    "id":recipient_id
+  },
+  "message":{
+    "text":"I can pull up the song on these platforms,",
+    "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"YouTube",
+        "payload":{
+            "url":"https://www.youtube.com/results?search_query="+song+"+"+artist
+        }
+      },
+      {
+        "content_type":"text",
+        "title":"Lyrics",
+        "payload":{
+            "url":"http://www.lyrics.com/lyrics/"+song+"%20"+artist
+        }
+
+      }
+    ]
+  }
+})
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
     print(status.json())
