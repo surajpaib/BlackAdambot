@@ -105,7 +105,7 @@ def webhook(request):
                                         youtube="https://www.youtube.com/results?search_query="+song+"+"+artist
 
                                     quick_reply(recipient_id,song,artist,youtube,genre)
-                                    time.sleep(5)
+                                    time.sleep(8)
                                     post_message(recipient_id, "All done here, record another clip?")
 
                                     break
@@ -188,7 +188,7 @@ def quick_reply(recipient_id,song,artist,youtube,genre):
                             "default_action": {
                                 "type": "web_url",
                                 "url":"https://soundcloud.com/search?q="+song+"%20"+artist ,
-                                "webview_height_ratio": "tall",
+                                "webview_height_ratio": "tall"
                             }
 
                         },
