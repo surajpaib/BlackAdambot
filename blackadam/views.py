@@ -43,10 +43,10 @@ def webhook(request):
                     '''
                     try:
                         if message["postback"]["payload"]=="START":
-                            welcome_message="Hello! I'm Black Adam, your personal Music Butler! Record music you want to identify by clicking on the mic button!"
+                            welcome_message="Hello! I'm Black Adam, your personal Music Butler! Record music you want to ID by clicking on the mic button!"
 
                             post_message(recipient_id,welcome_message)
-                            post_message(recipient_id,"P.S: I may not be able to figure out if you hum, I've just learnt to identify original music.")
+                            post_message(recipient_id,"P.S: I may not be able to figure out if you hum, I've just learnt to identify original music. Type out help if you're not sure what I can do")
                             return HttpResponse(status=200)
                     except:
                         print "Continue"
@@ -54,6 +54,13 @@ def webhook(request):
 
                     try:
                         if message["message"]["text"]!=None:
+
+                            if message["message"]["text"]=="help" or message["message"]["text"]=="HELP" or message["message"]["text"]=="Help":
+                                post_message(recipient_id,"I work just like Shazam or SoundHound. Record the original audio using the microphone button and I'll find the title, artists and associated information.")
+                                break
+                                break
+
+
                             err_message = "I can help you out with identifying music for now. Click the record button to witness me!"
                             post_message(recipient_id,err_message)
                             return HttpResponse(status=200)
@@ -77,17 +84,23 @@ def webhook(request):
                                     post_message(recipient_id,songt)
                                     post_message(recipient_id,song)
 
+                                    genre=""
+                                    for g in t["genres"]:
+                                        genre=genre+"+"+g["name"]
+
                                     post_message(recipient_id,"And the artists are,")
                                     for a in t["artists"]:
                                         artist=a["name"]
                                         create_button(recipient_id,artist)
+
+                                    # Check for associated youtube ID
                                     if "youtube" in t["external_metadata"]:
                                         youtube="https://www.youtube.com/watch?v="+str(t["external_metadata"]["youtube"]["vid"])
                                     else:
                                         youtube="https://www.youtube.com/results?search_query="+song+"+"+artist
 
-                                    quick_reply(recipient_id,song,artist,youtube)
-                                    time.sleep(3)
+                                    quick_reply(recipient_id,song,artist,youtube,genre)
+                                    time.sleep(5)
                                     post_message(recipient_id, "All done here, record another clip?")
 
                                     break
@@ -140,7 +153,7 @@ def create_button(recipient_id,message):
     print(status.json())
 
 
-def quick_reply(recipient_id,song,artist,youtube):
+def quick_reply(recipient_id,song,artist,youtube,genre):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token='+PAGE_TOKEN
     response_msg = json.dumps({
   "recipient":{
@@ -161,10 +174,20 @@ def quick_reply(recipient_id,song,artist,youtube):
           },
           {
             "type":"web_url",
-            "title":"Lyrics",
+            "title":"Similar Music on SoundCloud",
               "webview_height_ratio":"tall",
-            "url":"http://www.lyrics.com/lyrics/"+song+"%20"+artist
-          }
+            "url":"https://soundcloud.com/search?q="+song+"%20"+artist
+          },
+            {
+                "type": "web_url",
+                "title": "Similar Genres on 8tracks",
+                "webview_height_ratio": "tall",
+                "url": "http://8tracks.com/explore/"+genre
+            },
+            {
+
+            }
+
         ]
       }
     }
