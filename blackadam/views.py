@@ -81,6 +81,7 @@ def webhook(request):
                             try:
                                 for t in return_object["metadata"]["music"]:
                                     song=t["title"]
+
                                     songt="Hey, I've identified your song, it's"
                                     post_message(recipient_id,songt)
                                     post_message(recipient_id,song)
@@ -113,7 +114,7 @@ def webhook(request):
                                 post_message(recipient_id,"Sorry, my programming is limited!")
                                 return HttpResponse(status=200)
 
-
+                            print return_object
                             return HttpResponse(return_object,status=200,content_type="application/json")
 
 
