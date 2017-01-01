@@ -5,6 +5,7 @@ import json
 import wget
 import requests
 import os
+import time
 
 
 # Create your views here.
@@ -80,8 +81,15 @@ def webhook(request):
                                     for a in t["artists"]:
                                         artist=a["name"]
                                         create_button(recipient_id,artist)
-                                    post_message(recipient_id,"All done here, record another clip?")
-                                    quick_reply(recipient_id,song,artist)
+                                    if "youtube" in t["external_metadata"]:
+                                        youtube="https://www.youtube.com/watch?v="+str(t["external_metadata"]["youtube"]["vid"])
+                                    else:
+                                        youtube="https://www.youtube.com/results?search_query="+song+"+"+artist
+
+                                    quick_reply(recipient_id,song,artist,youtube)
+                                    time.sleep(3)
+                                    post_message(recipient_id, "All done here, record another clip?")
+
                                     break
                             except:
                                 post_message(recipient_id,"Sorry, my programming is limited!")
@@ -132,29 +140,34 @@ def create_button(recipient_id,message):
     print(status.json())
 
 
-def quick_reply(recipient_id,song,artist):
+def quick_reply(recipient_id,song,artist,youtube):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token='+PAGE_TOKEN
     response_msg = json.dumps({
   "recipient":{
     "id":recipient_id
   },
   "message":{
-    "text":"I can pull up the song on these platforms,",
-    "quick_replies":[
-      {
-        "content_type":"text",
-        "title":"YouTube",
-        "payload":"https://www.youtube.com/results?search_query="+song+"+"+artist
-
-      },
-      {
-        "content_type":"text",
-        "title":"Lyrics",
-        "payload":"http://www.lyrics.com/lyrics/"+song+"%20"+artist
-
-
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"button",
+        "text":"Here's a few more platforms you can check out!",
+        "buttons":[
+          {
+            "type":"web_url",
+            "url":youtube,
+            "webview_height_ratio":"tall",
+            "title":"YouTube"
+          },
+          {
+            "type":"web_url",
+            "title":"Lyrics",
+              "webview_height_ratio":"tall",
+            "url":"http://www.lyrics.com/lyrics/"+song+"%20"+artist
+          }
+        ]
       }
-    ]
+    }
   }
 })
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
