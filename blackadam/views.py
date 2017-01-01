@@ -57,6 +57,7 @@ def webhook(request):
 
                             if message["message"]["text"]=="help" or message["message"]["text"]=="HELP" or message["message"]["text"]=="Help":
                                 post_message(recipient_id,"I work just like Shazam or SoundHound. Record the original audio using the microphone button and I'll find the title, artists and associated information.")
+                                return HttpResponse(status=200)
                                 break
                                 break
 
