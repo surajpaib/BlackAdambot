@@ -156,42 +156,55 @@ def create_button(recipient_id,message):
 def quick_reply(recipient_id,song,artist,youtube,genre):
     post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token='+PAGE_TOKEN
     response_msg = json.dumps({
-  "recipient":{
-    "id":recipient_id
-  },
-  "message":{
-    "attachment":{
-      "type":"template",
-      "payload":{
-        "template_type":"button",
-        "text":"Here's a few more platforms you can check out!",
-        "buttons":[
-          {
-            "type":"web_url",
-            "url":youtube,
-            "webview_height_ratio":"tall",
-            "title":"YouTube"
-          },
-          {
-            "type":"web_url",
-            "title":"Similar Music on SoundCloud",
-              "webview_height_ratio":"tall",
-            "url":"https://soundcloud.com/search?q="+song+"%20"+artist
-          },
-            {
-                "type": "web_url",
-                "title": "Similar Genres on 8tracks",
-                "webview_height_ratio": "tall",
-                "url": "http://8tracks.com/explore/"+genre
-            },
-            {
+        "recipient": {
+            "id":recipient_id
+        },
+        "message": {
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [
+                        {
+                            "title": "YouTube",
+                            "image_url": "https://www.seeklogo.net/wp-content/uploads/2016/06/YouTube-icon.png",
+                            "subtitle": "Watch your music video on YouTube",
+                            "default_action": {
+                                "type": "web_url",
+                                "url":youtube,
+                                "webview_height_ratio": "tall",
+                            }
 
+                        },
+                        {
+                            "title": "Music on SoundCloud",
+                            "image_url": "https://www.competitionpolicyinternational.com/wp-content/uploads/2016/09/SoundCloud-Logo.jpg",
+                            "subtitle": "Check out the song and various mixes on SoundCloud",
+                            "default_action": {
+                                "type": "web_url",
+                                "url":"https://soundcloud.com/search?q="+song+"%20"+artist ,
+                                "webview_height_ratio": "tall",
+                            }
+
+                        },
+                        {
+                            "title": "8 Track it",
+                            "image_url": "http://techtalks.ideacellular.com/wp-content/uploads/2016/10/22.png",
+                            "subtitle": "Listen to music from Similar Genres on 8tracks",
+                            "default_action": {
+                                "type": "web_url",
+                                "url": "http://8tracks.com/explore/"+genre,
+                                "webview_height_ratio": "tall",
+                            }
+
+                        }
+
+
+                    ]
+                }
             }
-
-        ]
-      }
-    }
-  }
-})
+        }
+    })
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
     print(status.json())
+
