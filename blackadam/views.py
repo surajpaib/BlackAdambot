@@ -144,16 +144,14 @@ def quick_reply(recipient_id,song,artist):
       {
         "content_type":"text",
         "title":"YouTube",
-        "payload":{
-            "url":"https://www.youtube.com/results?search_query="+song+"+"+artist
-        }
+        "payload":"https://www.youtube.com/results?search_query="+song+"+"+artist
+
       },
       {
         "content_type":"text",
         "title":"Lyrics",
-        "payload":{
-            "url":"http://www.lyrics.com/lyrics/"+song+"%20"+artist
-        }
+        "payload":"http://www.lyrics.com/lyrics/"+song+"%20"+artist
+
 
       }
     ]
