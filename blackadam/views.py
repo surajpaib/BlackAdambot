@@ -60,6 +60,14 @@ def webhook(request):
                                 return HttpResponse(status=200)
                                 break
                                 break
+                            if message["message"]["text"]=="troubleshoot" or message["message"]["text"]=="TROUBLESHOOT" or message["message"]["text"]=="Troubleshoot":
+                                troubleshoot="Let's work together shall we? If you've hummed or not recorded the original audio, I can't help you out yet. Sorry"
+
+                                post_message(recipient_id,troubleshoot)
+                                post_message(recipient_id,"If not, try recording atleast 15 seconds of the audio. If it still doesn't work, I'll get back to you with the audio source in a bit.(I'll try asking around)")
+                                return HttpResponse(status=200)
+                                break
+                                break
 
 
                             err_message = "I can help you out with identifying music for now. Click the record button to witness me!"
@@ -111,7 +119,8 @@ def webhook(request):
 
                                     break
                             except:
-                                post_message(recipient_id,"Sorry, my programming is limited!")
+                                post_message(recipient_id,"Seems like we've got a mutual communication issue")
+                                quick(recipient_id)
                                 return HttpResponse(status=200)
 
                             print return_object
@@ -214,3 +223,27 @@ def quick_reply(recipient_id,song,artist,youtube,genre):
     status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
     print(status.json())
 
+def quick(recipient_id):
+    post_message_url = 'https://graph.facebook.com/v2.6/me/messages?access_token=' + PAGE_TOKEN
+    response_msg = json.dumps({
+  "recipient":{
+    "id":recipient_id
+  },
+  "message":{
+    "text":"My progamming is limited. But you're not. Pick any of the below to try again",
+    "quick_replies":[
+      {
+        "content_type":"text",
+        "title":"Help",
+        "payload":"Help"
+      },
+      {
+        "content_type":"text",
+        "title":"Troubleshoot",
+        "payload":"Troubleshoot"
+      }
+    ]
+  }
+})
+    status = requests.post(post_message_url, headers={"Content-Type": "application/json"}, data=response_msg)
+    print(status.json())
