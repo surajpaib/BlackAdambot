@@ -119,9 +119,43 @@ def webhook(request):
 
                                     break
                             except:
-                                post_message(recipient_id,"Seems like we've got a mutual communication issue")
-                                quick(recipient_id)
-                                return HttpResponse(status=200)
+                                try:
+                                    for t in return_object["metadata"]["humming"]:
+                                        song = t["title"]
+
+                                        songt = "Hey, I've identified your song, it's"
+                                        post_message(recipient_id, songt)
+                                        post_message(recipient_id, song)
+
+                                        genre = "Pop"
+                                        if "genres" in t:
+                                            for g in t["genres"]:
+                                                genre = g["name"]
+                                                genre = genre + "+"
+
+                                        post_message(recipient_id, "And the artists are,")
+                                        for a in t["artists"]:
+                                            artist = a["name"]
+                                            create_button(recipient_id, artist)
+
+                                        # Check for associated youtube ID
+                                        if "youtube" in t["external_metadata"]:
+                                            youtube = "https://www.youtube.com/watch?v=" + str(
+                                                t["external_metadata"]["youtube"]["vid"])
+                                        else:
+                                            youtube = "https://www.youtube.com/results?search_query=" + song + "+" + artist
+
+                                        quick_reply(recipient_id, song, artist, youtube, genre)
+                                        time.sleep(8)
+                                        post_message(recipient_id, "All done here, record another clip?")
+
+                                        break
+
+                                except:
+
+                                    post_message(recipient_id,"Seems like we've got a mutual communication issue")
+                                    quick(recipient_id)
+                                    return HttpResponse(status=200)
 
                             print return_object
                             return HttpResponse(return_object,status=200,content_type="application/json")
