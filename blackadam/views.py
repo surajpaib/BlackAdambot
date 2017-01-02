@@ -88,6 +88,7 @@ def webhook(request):
 
                             try:
                                 for t in return_object["metadata"]["music"]:
+                                    print "Music activated"
                                     song=t["title"]
 
                                     songt="Hey, I've identified your song, it's"
@@ -121,6 +122,7 @@ def webhook(request):
                             except:
                                 try:
                                     for t in return_object["metadata"]["humming"]:
+                                        print "Humming activated"
                                         song = t["title"]
 
                                         songt = "Hey, I've identified your song, it's"
