@@ -85,7 +85,7 @@ def webhook(request):
                             os.remove("music.mp3")
                             return_object=json.loads(return_object.decode('utf-8'))
 
-
+                            print return_object
                             try:
                                 for t in return_object["metadata"]["music"]:
                                     print "Music activated"
@@ -159,7 +159,7 @@ def webhook(request):
                                     quick(recipient_id)
                                     return HttpResponse(status=200)
 
-                            print return_object
+
                             return HttpResponse(return_object,status=200,content_type="application/json")
 
 
