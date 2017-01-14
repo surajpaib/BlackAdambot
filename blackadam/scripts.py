@@ -10,8 +10,8 @@ def audio_file(audio):
 
     config = {
         'host': 'ap-southeast-1.api.acrcloud.com',
-        'access_key': 'ea240a5363df44473faac1d47ef35448',
-        'access_secret': 'unp9CHJZYRkVkzljCPqf6BchfsLMTFo7xeEiz113',
+        'access_key': 'f1840ce5b0603e9db3ec8c526eea65e5',
+        'access_secret': '1NfVJoxoREbGlO9HVqG4QNkSiMT86Lvs3Geogov9',
         'debug': True,
         'timeout': 30  # seconds
     }
